@@ -1,0 +1,110 @@
+<apex:page controller="SandboxRefreshController" tabStyle="Account">
+  <apex:form rendered="{!isSandbox}">  
+	  <apex:pageBlock title="PRE-SANDBOX REFRESH ACTIVITIES">
+
+		<apex:pageBlockSection id="masking" title="Mask Emails"> 
+		    <apex:pageBlockSectionItem>
+		    	<apex:outputPanel layout="inline" >
+					<apex:outputLabel value="Sandbox Name: " />	
+	        		<apex:inputText value="{!sandboxName}" label="Sandbox Name" />
+	        	
+		        	<apex:commandButton action="{!maskEmails}" value="Mask Contact Emails" reRender="masking" status="maskEmail"/>
+		          	<apex:actionStatus id="maskEmail" >
+		             	<apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+
+		        	<apex:outputLabel value=" Masked {!emailCount} emails." rendered="{!emailCount != null}"/>	
+		        </apex:outputPanel>
+		    </apex:pageBlockSectionItem>
+	    </apex:pageBlockSection>
+
+	    <apex:pageBlockSection id="delJobs" title="Delete Scheduled Jobs">
+	      <apex:pageBlockSectionItem>
+		    	<apex:outputPanel layout="inline" >
+	    			<apex:outputLabel value="Delete Scheduled Jobs except Scheduled Apex "/>	
+	    		
+	        		<apex:commandButton action="{!abortJobs}" value="Abort Jobs"  reRender="delJobs" status="delJobs"/> 
+	        		<apex:actionStatus id="delJobs" >
+		                <apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+	        		<apex:outputLabel value=" Aborted {!jobsAborted} jobs." rendered="{!jobsAborted != null}"/>	
+	        		<br/>            
+	            <!--<apex:outputLabel value="Org ID = {!orgId}"/>    
+	            <apex:outputLabel value="Environment URL = {!envURL}"/>         -->  
+	       		</apex:outputPanel>
+		    </apex:pageBlockSectionItem> 
+	    </apex:pageBlockSection>
+
+	    <apex:pageBlockSection id="settings" title="Update Custom Settings">    
+	     <apex:pageBlockSectionItem>
+		    	<apex:outputPanel layout="inline" >
+					<apex:outputLabel value="End Point URL: " />	
+	        		<apex:inputText value="{!endPointURL}" label="End Point URL: " />
+	        	
+		        	<apex:commandButton action="{!updateEndPoint}" value="Update End Point" reRender="settings" status="endPointURL"/>
+		            <apex:actionStatus id="endPointURL" >
+		                <apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+
+		       		<apex:outputLabel value=" Updated End Point to {!endPointURL}. " rendered="{!endPointURL != null && endPointURL != ''}"/>	
+				</apex:outputPanel>
+		    </apex:pageBlockSectionItem> 
+		</apex:pageBlockSection>
+
+		     <apex:pageBlockSection  id="flexera" >
+		    	<apex:outputPanel layout="inline" >
+					<apex:outputLabel value="Flexera Login URL: " />	
+	        		<apex:inputText value="{!flexeraURL}" label="Flexera Login URL: " />
+	        	
+		        	<apex:commandButton action="{!updateFlexera}" value="Update Flexera Login" reRender="flexera" status="flexeraUpdate"/>
+		            <apex:actionStatus id="flexeraUpdate" >
+		                <apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+
+		       		<apex:outputLabel value=" Updated Elexra Login to {!flexeraURL}. " rendered="{!flexeraURL != null && flexeraURL != ''}"/>	
+				</apex:outputPanel>
+		    </apex:pageBlockSection> 
+
+		    <apex:pageBlockSection id="ImageNow">
+		    	<apex:outputPanel layout="inline" >
+					<apex:outputLabel value="ImageNow Host URL: " />	
+	        		<apex:inputText value="{!imageNowURL}" label="ImageNow Host URL: " />
+	        	
+		        	<apex:commandButton action="{!updateImageNow}" value="Update ImageNow Host" reRender="ImageNow" status="imageNowUpdate"/>
+		            <apex:actionStatus id="imageNowUpdate" >
+		                <apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+
+		       		<apex:outputLabel value=" Updated ImamgeNow Host to {!imageNowURL}. " rendered="{!imageNowURL != null && imageNowURL != ''}"/>	
+				</apex:outputPanel>
+		    </apex:pageBlockSection> 	
+
+		    <apex:pageBlockSection id="Rally">
+		    	<apex:outputPanel layout="inline" >
+					<apex:outputLabel value="Update Rally Callout Settings." />	        		
+	        	
+		        	<apex:commandButton action="{!updateRallySettings}" value="Update Rally Settings" reRender="Rally" status="rallyUpdate"/>
+		            <apex:actionStatus id="rallyUpdate" >
+		                <apex:facet name="start" >
+		                  <img src="{!$Resource.loadingIcon}" />                    
+		                </apex:facet>
+		            </apex:actionStatus>
+
+		       		<apex:outputLabel value=" Updated all references within the value from https://rally1.rallydev.com to https://sandbox.rallydev.com. "  rendered="{!rallyUpdated == true}"/>	
+				</apex:outputPanel> 
+
+		    </apex:pageBlockSection> 	
+
+	  </apex:pageBlock>
+  </apex:form>
+</apex:page>
